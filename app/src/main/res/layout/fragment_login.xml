@@ -8,7 +8,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="philbook"
+        android:text="disizbook"
         android:textSize="70sp"
         app:fontFamily="@font/tahoma_bold"
         android:textFontWeight="900"
