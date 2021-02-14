@@ -1,4 +1,4 @@
-package com.disizaniknem.thesocialnetwork
+package com.disizaniknem.thesocialnetwork.ui.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
