@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -86,7 +87,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:20.0.2'
 
     // Firebase Firestore
-    implementation 'com.google.firebase:firebase-firestore:22.1.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:22.1.0'
 
     // Firebase Storage KTX
     implementation 'com.google.firebase:firebase-storage-ktx:19.2.1'
