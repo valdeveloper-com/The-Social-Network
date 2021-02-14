@@ -15,4 +15,6 @@ interface MainRepository {
 
     suspend fun getPostsForFollows(): Resource<List<Post>>
 
+    suspend fun toggleLikeForPost(post: Post): Resource<Boolean>
+
 }
