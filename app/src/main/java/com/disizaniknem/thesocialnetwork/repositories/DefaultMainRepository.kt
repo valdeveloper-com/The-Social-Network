@@ -7,6 +7,7 @@ import com.disizaniknem.thesocialnetwork.other.Resource
 import com.disizaniknem.thesocialnetwork.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.scopes.ActivityScoped
@@ -60,6 +61,25 @@ class DefaultMainRepository : MainRepository {
                 ?: throw IllegalStateException()
             user.isFollowing = uid in currentUser.follows
             Resource.Success(user)
+        }
+    }
+
+    override suspend fun getPostsForFollows() = withContext(Dispatchers.IO) {
+        safeCall {
+            val uid = FirebaseAuth.getInstance().uid!!
+            val follows = getUser(uid).data!!.follows
+            val allPosts = posts.whereIn("authorUid", follows)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .await()
+                .toObjects(Post::class.java)
+                .onEach { post ->
+                    val user = getUser(post.authorUid).data!!
+                    post.authorProfilePictureUrl = user.profilePictureUrl
+                    post.authorUsername = user.username
+                    post.isLiked = uid in post.likedBy
+                }
+            Resource.Success(allPosts)
         }
     }
 }
