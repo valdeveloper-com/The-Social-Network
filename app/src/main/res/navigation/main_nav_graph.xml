@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -24,6 +25,19 @@
         android:name="com.disizaniknem.thesocialnetwork.ui.main.fragments.SettingsFragment"
         android:label="SettingsFragment" />
 
-    <action android:id="@+id/globalActionToCreatePostFragment"
-        app:destination="@id/createPostFragment"/>
+    <action
+        android:id="@+id/globalActionToOthersProfileFragment"
+        app:destination="@+id/othersProfileFragment" />
+
+    <action
+        android:id="@+id/globalActionToCreatePostFragment"
+        app:destination="@id/createPostFragment" />
+    <fragment
+        android:id="@+id/othersProfileFragment"
+        android:name="com.disizaniknem.thesocialnetwork.ui.main.fragments.OthersProfileFragment"
+        android:label="OthersProfileFragment">
+        <argument
+            android:name="uid"
+            app:argType="string" />
+    </fragment>
 </navigation>
