@@ -101,4 +101,7 @@ dependencies {
 
     // Android Image Cropper
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    // Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha04"
 }
