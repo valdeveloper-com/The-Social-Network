@@ -3,6 +3,7 @@ package com.disizaniknem.thesocialnetwork.repositories
 import android.net.Uri
 import com.disizaniknem.thesocialnetwork.data.entities.Comment
 import com.disizaniknem.thesocialnetwork.data.entities.Post
+import com.disizaniknem.thesocialnetwork.data.entities.ProfileUpdate
 import com.disizaniknem.thesocialnetwork.data.entities.User
 import com.disizaniknem.thesocialnetwork.other.Resource
 
@@ -31,5 +32,9 @@ interface MainRepository {
     suspend fun deleteComment(comment: Comment): Resource<Comment>
 
     suspend fun getCommentForPost(postId: String): Resource<List<Comment>>
+
+    suspend fun updateProfile(profileUpdate: ProfileUpdate): Resource<Any>
+
+    suspend fun updateProfilePicture(uid: String, imageUri: Uri) : Uri?
 
 }
