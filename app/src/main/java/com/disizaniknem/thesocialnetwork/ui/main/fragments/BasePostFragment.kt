@@ -5,7 +5,9 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.disizaniknem.thesocialnetwork.R
 import com.disizaniknem.thesocialnetwork.adapters.PostAdapter
 import com.disizaniknem.thesocialnetwork.adapters.UserAdapter
 import com.disizaniknem.thesocialnetwork.other.EventObserver
@@ -53,6 +55,15 @@ abstract class BasePostFragment(
         postAdapter.setOnLikedByClickedListener { post ->
             basePostViewModel.getUsers(post.likedBy)
         }
+
+        postAdapter.setOnCommentsClickListener { comment ->
+            findNavController().navigate(
+                R.id.globalActionToCommentDialog,
+                Bundle().apply {
+                    putString("postId", comment.id)
+                }
+            )
+        }
     }
 
     private fun subscribeToObservers() {
@@ -94,8 +105,6 @@ abstract class BasePostFragment(
         ) { deletedPost ->
             postAdapter.posts -= deletedPost
         })
-
-
 
         basePostViewModel.posts.observe(viewLifecycleOwner, EventObserver(
             onError = {

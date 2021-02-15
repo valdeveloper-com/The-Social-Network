@@ -26,6 +26,10 @@
         android:label="SettingsFragment" />
 
     <action
+        android:id="@+id/globalActionToCommentDialog"
+        app:destination="@+id/commentDialog" />
+
+    <action
         android:id="@+id/globalActionToOthersProfileFragment"
         app:destination="@+id/othersProfileFragment" />
 
@@ -40,4 +44,12 @@
             android:name="uid"
             app:argType="string" />
     </fragment>
+    <dialog
+        android:id="@+id/commentDialog"
+        android:name="com.disizaniknem.thesocialnetwork.ui.main.dialogs.CommentDialog"
+        android:label="CommentDialog" >
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </dialog>
 </navigation>
