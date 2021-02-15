@@ -66,7 +66,7 @@ abstract class BasePostFragment(
                 }
             }
         ) { isLiked ->
-            curLikedIndex?.let {index ->
+            curLikedIndex?.let { index ->
                 val uid = FirebaseAuth.getInstance().uid!!
                 postAdapter.posts[index].apply {
                     this.isLiked = isLiked
@@ -98,7 +98,7 @@ abstract class BasePostFragment(
             onLoading = {
                 postProgressBar.isVisible = true
             }
-        ) {posts ->
+        ) { posts ->
             postProgressBar.isVisible = false
             postAdapter.posts = posts
         })

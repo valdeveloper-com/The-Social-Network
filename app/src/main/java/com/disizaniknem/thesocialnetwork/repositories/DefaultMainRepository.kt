@@ -93,7 +93,7 @@ class DefaultMainRepository : MainRepository {
                 transaction.update(
                     posts.document(post.id),
                     "likedBy",
-                    if(uid in currentLikes) currentLikes - uid else {
+                    if (uid in currentLikes) currentLikes - uid else {
                         currentLikes + uid
                         isLiked = true
                     }
@@ -109,6 +109,23 @@ class DefaultMainRepository : MainRepository {
             storage.getReferenceFromUrl(post.imageUrl).delete().await()
             Resource.Success(post)
         }
+    }
 
+    override suspend fun getPostsForProfile(uid: String) = withContext(Dispatchers.IO) {
+        safeCall {
+            val profilePosts = posts.whereEqualTo("authorUid", uid)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .await()
+                .toObjects(Post::class.java)
+                .onEach { post ->
+                    val user = getUser(post.authorUid).data!!
+                    post.authorProfilePictureUrl = user.profilePictureUrl
+                    post.authorUsername = user.username
+                    post.isLiked = uid in post.likedBy
+                }
+
+            Resource.Success(profilePosts)
+        }
     }
 }
