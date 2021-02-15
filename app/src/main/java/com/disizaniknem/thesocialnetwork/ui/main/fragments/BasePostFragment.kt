@@ -7,8 +7,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.RequestManager
 import com.disizaniknem.thesocialnetwork.adapters.PostAdapter
+import com.disizaniknem.thesocialnetwork.adapters.UserAdapter
 import com.disizaniknem.thesocialnetwork.other.EventObserver
 import com.disizaniknem.thesocialnetwork.ui.main.dialogs.DeletePostDialog
+import com.disizaniknem.thesocialnetwork.ui.main.dialogs.LikedByDialog
 import com.disizaniknem.thesocialnetwork.ui.main.viewmodels.BasePostViewModel
 import com.disizaniknem.thesocialnetwork.ui.snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +49,10 @@ abstract class BasePostFragment(
                 }
             }.show(childFragmentManager, null)
         }
+
+        postAdapter.setOnLikedByClickedListener { post ->
+            basePostViewModel.getUsers(post.likedBy)
+        }
     }
 
     private fun subscribeToObservers() {
@@ -70,6 +76,7 @@ abstract class BasePostFragment(
                 val uid = FirebaseAuth.getInstance().uid!!
                 postAdapter.posts[index].apply {
                     this.isLiked = isLiked
+                    isLiking = false
                     if (isLiked) {
                         likedBy += uid
                     } else {
@@ -101,6 +108,16 @@ abstract class BasePostFragment(
         ) { posts ->
             postProgressBar.isVisible = false
             postAdapter.posts = posts
+        })
+
+        basePostViewModel.likedByUsers.observe(viewLifecycleOwner, EventObserver(
+            onError = {
+                snackbar(it)
+            }
+        ) { users ->
+            val userAdapter = UserAdapter(glide)
+            userAdapter.users = users
+            LikedByDialog(userAdapter).show(childFragmentManager, null)
         })
     }
 }
