@@ -143,4 +143,14 @@ class DefaultMainRepository : MainRepository {
             Resource.Success(!isFollowing)
         }
     }
+
+    override suspend fun searchUser(query: String) = withContext(Dispatchers.IO) {
+        safeCall {
+            val userResults = users.whereGreaterThanOrEqualTo("username", query.toUpperCase(Locale.ROOT))
+                .get()
+                .await()
+                .toObjects(User::class.java)
+            Resource.Success(userResults)
+        }
+    }
 }
