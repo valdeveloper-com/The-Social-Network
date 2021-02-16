@@ -1,5 +1,7 @@
 package com.disizaniknem.thesocialnetwork.other
 
+import android.util.Log
+
 inline fun <T> safeCall(action: () -> Resource<T>): Resource<T> {
     return try {
         action()
